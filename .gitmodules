@@ -1,0 +1,3 @@
+[submodule "song-nebula-backend"]
+	path = song-nebula-backend
+	url = https://github.com/alexkalinins/song-nebula-backend.git
