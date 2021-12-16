@@ -1,0 +1,22 @@
+.songDisplay{
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+
+    &>img{
+        width: 10vw;
+        height: auto;
+    }
+}
+
+.selectedDiv{
+    background-color: blue;
+    border-radius: 5px;
+}
+
+.topBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
