@@ -19,4 +19,54 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    width: 100%;
+}
+
+.searchResults{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    position: absolute;
+    width: 30vw;
+}
+
+.searchResult{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    width: 100%;
+
+    &>div{
+        display: flex;
+        flex-direction: column;
+    }
+
+    &>img{
+        width: 2vw;
+        height: auto;
+    }
+}
+
+.searchBarDiv{
+    min-width: 20vw;
+
+    &>input{
+        width: 100%;
+    }
+}
+
+.nebulaContainer{
+    min-width: 60vw;
+    max-height: 80vh;
+    background-color: peachpuff;
+}
+
+.mainContent{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
 }

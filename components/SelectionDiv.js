@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
+import useFeatures from '../hooks/useFeatures';
 
-export default function SelectionDiv({ canSelect, selectCallback, unselectCallback, children }) {
+export default function SelectionDiv({ feature, children }) {
     const [selected, setSelected] = useState(false)
+    const {onSelect, onDeselect} = useFeatures();
+
     return (
         <div className={selected ? 'selectedDiv' : 'unselectedDiv'} onClick={() => {
-            if (!selected) {
-                if (canSelect) {
-                    selectCallback();
-                    setSelected(true)
-                }
+            if(!selected){
+                setSelected(onSelect(feature));
             } else {
-                // dont care about canSelect if unselecting
-                unselectCallback();
-                setSelected(false)
+                setSelected(!onDeselect(feature));
             }
         }}>
             {children}

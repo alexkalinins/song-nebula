@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import SelectionDiv from './SelectionDiv';
+import ReactAudioPlayer from 'react-audio-player';
 
 export default function SongDisplay({ id }) {
 
     const [song, setSong] = useState(null)
-    const [selected, setSelected] = useState([])
-
+    
     useEffect(() => {
         axios({
             method: 'get',
@@ -19,67 +19,61 @@ export default function SongDisplay({ id }) {
         })
     }, [id])
 
-    const selectCallback = (elem) => {
-        setSelected([...selected, elem]);
-    }
-
-    const unselectCallback = (elem) => {
-        setSelected(selected.filter(e => e != elem));
-    }
-
     return (
         <div>
             {song && (
                 <div className="songDisplay">
                     <h2>{song.title}</h2>
-                    <p>by {song.artists}</p>
+                    <p>by {song.artist_names.toString().replace(',', ', ')}</p>
                     <img src={song.image_url} alt="" />
+                    <ReactAudioPlayer src={song.preview_url} controls/>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('acousticness')} unselectCallback={() => unselectCallback('acousticness')}>
+                    <SelectionDiv feature="acousticness">
                         <h3>Acousticness</h3>
                         <p>{song.acousticness}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('danceability')} unselectCallback={() => unselectCallback('danceability')}>
+                    <SelectionDiv feature="danceability">
                         <h3>Danceability</h3>
                         <p>{song.danceability}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('energy')} unselectCallback={() => unselectCallback('energy')}>
+                    <SelectionDiv feature="energy">
                         <h3>Energy</h3>
                         <p>{song.energy}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('liveness')} unselectCallback={() => unselectCallback('liveness')}>
+                    <SelectionDiv feature="liveness">
                         <h3>Liveness</h3>
                         <p>{song.liveness}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('speechiness')} unselectCallback={() => unselectCallback('speechiness')}>
+                    <SelectionDiv feature="speechiness">
                         <h3>Speechiness</h3>
                         <p>{song.speechiness}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('instrumentalness')} unselectCallback={() => unselectCallback('instrumentalness')}>                <h3>Instrumentalness</h3>
+                    <SelectionDiv feature="instrumentalness">
+                        <h3>Instrumentalness</h3>
                         <p>{song.instrumentalness}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('valence')} unselectCallback={() => unselectCallback('valence')}>
+                    <SelectionDiv feature="valence">
                         <h3>Valence</h3>
                         <p>{song.valence}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('loudness')} unselectCallback={() => unselectCallback('loudness')}>
+                    <SelectionDiv feature="loudness">
                         <h3>Loudness</h3>
                         <p>{song.loudness}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('tempo')} unselectCallback={() => unselectCallback('tempo')}>
+                    <SelectionDiv feature="tempo">
                         <h3>Tempo</h3>
                         <p>{song.tempo}</p>
                     </SelectionDiv>
 
-                    <SelectionDiv canSelect={selected.length < 3} selectCallback={() => selectCallback('popularity')} unselectCallback={() => unselectCallback('popularity')}>
+                    <SelectionDiv feature="popularity">
                         <h3>Popularity</h3>
                         <p>{song.popularity}</p>
                     </SelectionDiv>

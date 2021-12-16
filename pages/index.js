@@ -1,23 +1,22 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import SongDisplay from '../components/SongDisplay';
-import { useState } from 'react';
+import Search from '../components/Search';
+import useId from '../hooks/useId';
+import Nebula from '../components/Nebula';
 
 export default function Home() {
-  const [songId, setSongId] = useState("0ZPquQV2aKmDfwPjvMdvRp");
-  const [search, setSearch] = useState("")
+  const { id } = useId();
+
   return (
     <div>
       <main>
         <div className="topBar">
           <h1>SongNebula</h1>
-          <input type="text" className="searchBar" placeholder="Search for a song..." onKeyPress={e => {
-            if (e.key == 'Enter') {
-              //todo submit search
-            }
-          }} />
+          <Search />
         </div>
-        <SongDisplay id={songId} />
+        <div className="mainContent">
+          <SongDisplay id={id} />
+          <Nebula />
+        </div>
       </main>
     </div>
   )
