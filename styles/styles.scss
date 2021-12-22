@@ -1,20 +1,27 @@
-.songDisplay{
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+
+.songDisplay {
     display: flex;
     flex-direction: column;
     width: 30vw;
 
-    &>img{
+    &>img {
         width: 10vw;
         height: auto;
     }
 }
 
-.selectedDiv{
+.selectedDiv {
     background-color: blue;
     border-radius: 5px;
 }
 
-.topBar{
+.topBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,7 +29,7 @@
     width: 100%;
 }
 
-.searchResults{
+.searchResults {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -31,7 +38,7 @@
     width: 30vw;
 }
 
-.searchResult{
+.searchResult {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -40,33 +47,84 @@
     cursor: pointer;
     width: 100%;
 
-    &>div{
+    &>div {
         display: flex;
         flex-direction: column;
     }
 
-    &>img{
+    &>img {
         width: 2vw;
         height: auto;
     }
 }
 
-.searchBarDiv{
+.searchBarDiv {
     min-width: 20vw;
+    z-index: 10;
 
-    &>input{
+    &>input {
         width: 100%;
     }
 }
 
-.nebulaContainer{
-    min-width: 60vw;
-    max-height: 80vh;
+.nebulaContainer {
+    width: 60vw;
+    height: 80vh;
     background-color: peachpuff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.mainContent{
+.pointWindow {
+    position: absolute;
+    background-color: #00b7ffa0;
+
+    ::before {
+        filter: blur(5px);
+    }
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    padding: 1rem;
+    grid-gap: 1rem;
+
+    border-radius: 5px;
+
+    &>.imageButton {
+        grid-row-end: span 2;
+        width: 10vw;
+        height: auto;
+    }
+
+    &>audio {
+        grid-column-end: span 2;
+    }
+
+}
+
+.mainContent {
     display: flex;
     flex-direction: row;
     width: 100vw;
+}
+
+.imageButton {
+    cursor: pointer;
+
+    &>img {
+        width: 100%;
+        height: auto;
+
+        display: block;
+    }
+
+}
+
+.imageButton:hover{
+    filter: blur(1px);
+
 }
