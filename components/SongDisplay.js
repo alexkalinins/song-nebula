@@ -6,7 +6,7 @@ import ReactAudioPlayer from 'react-audio-player';
 export default function SongDisplay({ id }) {
 
     const [song, setSong] = useState(null)
-    
+
     useEffect(() => {
         axios({
             method: 'get',
@@ -26,8 +26,9 @@ export default function SongDisplay({ id }) {
                     <h2>{song.title}</h2>
                     <p>by {song.artist_names.toString().replace(',', ', ')}</p>
                     <img src={song.image_url} alt="" />
-                    <ReactAudioPlayer src={song.preview_url} controls/>
-
+                    {song.preview_url &&
+                        <ReactAudioPlayer src={song.preview_url} controls />
+                    }
                     <SelectionDiv feature="acousticness">
                         <h3>Acousticness</h3>
                         <p>{song.acousticness}</p>

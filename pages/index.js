@@ -9,13 +9,13 @@ export default function Home() {
   return (
     <div>
       <main>
+        <Nebula />
         <div className="topBar">
           <h1>SongNebula</h1>
           <Search />
         </div>
         <div className="mainContent">
           <SongDisplay id={id} />
-          <Nebula />
         </div>
       </main>
     </div>

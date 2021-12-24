@@ -51,6 +51,10 @@ function Points({ data, selected, id, onClick }) {
             tempObject.updateMatrix();
             meshRef.current.setMatrixAt(i, tempObject.matrix);
         }
+
+        meshRef.current.instanceMatrix.needsUpdate = true;
+        console.log('Instanec ref')
+        console.log(meshRef);
     }, [data, id, selected]);
 
     return (
@@ -93,18 +97,37 @@ function SelectionCursor({ position, song }) {
 
 
 export default function Nebula() {
+    const selectedBoxRef = useRef();
+
     const { id } = useId();
     const { selected } = useFeatures();
-    const [selectedPosition, setSelectedPosition] = useState(new THREE.Vector3(0, 0, 0));
-    const selectedBoxRef = useRef()
+
+    // the nebula data being displaed
     const [nebula, setNebula] = useState([]);
+
+    // the previous full set of selected axis -- to prevent making unnecessary requests.
     const [oldSelected, setOldSelected] = useState([])
 
+    // the position of selected point -- where PointWindow is displayed
+    const [selectedPosition, setSelectedPosition] = useState(new THREE.Vector3(0, 0, 0));
+
+    // the song whose info is being displayed in the PointWindow element
     const [boxSong, setBoxSong] = useState(null);
 
+    // true if the nebula is being displayed.
+    const [displaying, setDisplaying] = useState(false);
+
+    // the song that was clicked on last (for simulating double click)
+    const [preselectedInstance, setPreselectedInstance] = useState(null);
+
+    // song at which the camera is looking --- changed by double click
+    const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
+
+    // get new data only when three new (different) axis are selected.
     useEffect(() => {
-        if (selected.length == 3 && selected != oldSelected) {
-            setOldSelected(selected);
+        if (selected.length == 3 && ([...selected].sort().join(',') != [...oldSelected].sort().join(','))) {
+            setDisplaying(true);
+            setOldSelected([...selected]);
             axios({
                 method: 'get',
                 url: `/api/spotify/nebula/previews?axis1=${selected[0]}&axis2=${selected[1]}&axis3=${selected[2]}`,
@@ -119,9 +142,17 @@ export default function Nebula() {
     }, [id, selected])
 
     const handleOnClick = (e) => {
-        setSelectedPosition(e.point);
-        setBoxSong(nebula[e.instanceId]);
-        console.log(nebula[e.instanceId]);
+        // simulating a double click --- move camera only on double click
+        if (preselectedInstance === e.instanceId) {
+            setCameraTarget(e.point)
+            setPreselectedInstance(null);
+        } else {
+            setPreselectedInstance(e.instanceId)
+
+            // double click necesarily follows a single click
+            setBoxSong(nebula[e.instanceId]);
+            setSelectedPosition(e.point);
+        }
     }
 
     return (
@@ -130,27 +161,38 @@ export default function Nebula() {
                 <Canvas
                     linear
                     gl={{ antialias: false, alpha: false }}
-                    camera={{ position: [0, 0, 15], near: 0.5, far: 20 }}>
+                    camera={{ position: [0, 0, 15], near: 0.1, far: 100, zoom: 2 }}>
                     <ambientLight />
                     <axisHelper />
-                    <Points data={nebula} selected={selected} id={id} onClick={handleOnClick} />
-                    <OrbitControls />
+                    <Points data={nebula} selected={oldSelected} id={id} onClick={handleOnClick} onDoubleClick={() => console.log('pooooo')} />
+                    <OrbitControls target={cameraTarget} />
                     <SelectionCursor position={selectedPosition} ref={selectedBoxRef} song={boxSong} />
-                    <mesh position={[7, 0, 0]}>
-                        <Html>
-                            <h3>{selected[0]} +</h3>
-                        </Html>
-                    </mesh>
-                    <mesh position={[0, 7, 0]}>
-                        <Html>
-                            <h3>{selected[1]} +</h3>
-                        </Html>
-                    </mesh>
-                    <mesh position={[0, 0, 7]}>
-                        <Html>
-                            <h3>{selected[2]} +</h3>
-                        </Html>
-                    </mesh>
+                    {displaying &&
+                        <mesh position={[7, 0, 0]}>
+                            <Html>
+                                <h3>{oldSelected[0]} +</h3>
+                            </Html>
+                        </mesh>
+                    }
+
+                    {displaying &&
+                        <mesh position={[0, 7, 0]}>
+                            <Html>
+                                <h3>{oldSelected[1]} +</h3>
+                            </Html>
+                        </mesh>
+                    }
+
+                    {displaying &&
+                        <mesh position={[0, 0, 7]}>
+                            <Html>
+                                <h3>{oldSelected[2]} +</h3>
+                            </Html>
+                        </mesh>
+                    }
+
+
+
                 </Canvas>}
         </div>
     )
