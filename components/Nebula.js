@@ -8,21 +8,15 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Html } from '@react-three/drei'
 import PointWindow from './PointWindow';
 
+import { COLORS } from './globals';
+import useClusters from '../hooks/useClusters';
+
 
 const tempObject = new THREE.Object3D()
 const tempColor = new THREE.Color()
 
 
-const COLORS = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
-    '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-    '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-    '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-    '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-    '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-    '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-    '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-    '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-    '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+
 
 function Points({ data, selected, id, onClick }) {
     const meshRef = useRef();
@@ -85,6 +79,7 @@ function SelectionCursor({ position, song }) {
             {song &&
                 <boxGeometry args={[0.5, 0.5, 0.5]} />
             }
+            <pointLight position={position} />
             <meshPhongMaterial color={0x00ff00} />
             <Html ref={htmlRef}>
                 {song &&
@@ -99,8 +94,10 @@ function SelectionCursor({ position, song }) {
 export default function Nebula() {
     const selectedBoxRef = useRef();
 
-    const { id } = useId();
+    const { id, setId } = useId();
     const { selected } = useFeatures();
+
+    const { setClusterNebula, hasClusterNebula } = useClusters();
 
     // the nebula data being displaed
     const [nebula, setNebula] = useState([]);
@@ -136,16 +133,21 @@ export default function Nebula() {
                 console.log(res.data[0]);
                 console.log(`x: ${res.data[0][selected[0]]}, y: ${res.data[0][selected[1]]}, z: ${res.data[0][selected[2]]}`);
                 setNebula(res.data);
+
+                if (!hasClusterNebula() && res.data) setClusterNebula(res.data);
+
             }).catch(err => console.log(err));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, selected])
+    }, [selected])
 
     const handleOnClick = (e) => {
         // simulating a double click --- move camera only on double click
         if (preselectedInstance === e.instanceId) {
             setCameraTarget(e.point)
             setPreselectedInstance(null);
+            setId(nebula[e.instanceId].spotify_id);
+
         } else {
             setPreselectedInstance(e.instanceId)
 
@@ -162,7 +164,7 @@ export default function Nebula() {
                     linear
                     gl={{ antialias: false, alpha: false }}
                     camera={{ position: [0, 0, 15], near: 0.1, far: 100, zoom: 2 }}>
-                    <ambientLight />
+                    <ambientLight intensity={0.5}/>
                     <axisHelper />
                     <Points data={nebula} selected={oldSelected} id={id} onClick={handleOnClick} onDoubleClick={() => console.log('pooooo')} />
                     <OrbitControls target={cameraTarget} />

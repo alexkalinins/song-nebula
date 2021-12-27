@@ -10,7 +10,7 @@ export default function PointWindow({ song, backgroundColor }) {
         <div className="pointWindow">
             <ImageButton src={song.image_url} link={song.song_url} />
             <h2>{song.title}</h2>
-            <p>by {song.artist_names.toString()}</p>
+            <p>by {song.artist_names.toString().replace(',', ', ')}</p>
             {song.preview_url &&
                 <ReactAudioPlayer src={song.preview_url} controls />
             }

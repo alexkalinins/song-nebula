@@ -1,3 +1,5 @@
+@import './clusterRadio.scss';
+
 *,
 *::before,
 *::after {
@@ -6,6 +8,11 @@
 
 html{
     background-color: black;
+    user-select: none;
+}
+
+h2,h3{
+    user-select:text;
 }
 
 body{
@@ -108,7 +115,6 @@ body{
 
     display: grid;
     grid-template-columns: 4fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
 
     padding: 1rem;
     grid-gap: 1rem;
@@ -148,4 +154,10 @@ body{
 .imageButton:hover{
     filter: blur(1px);
 
+}
+
+.navButton {
+    cursor: pointer;
+    background-color:red;
+    border-radius: 5px;
 }
