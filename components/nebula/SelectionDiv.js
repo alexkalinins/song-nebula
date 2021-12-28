@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import useFeatures from '../hooks/useFeatures';
+import useFeatures from '@hooks/useFeatures';
 
 export default function SelectionDiv({ feature, children }) {
     const [selected, setSelected] = useState(false)

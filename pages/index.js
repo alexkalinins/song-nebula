@@ -1,9 +1,9 @@
-import SongDisplay from '../components/SongDisplay';
-import Search from '../components/Search';
-import useId from '../hooks/useId';
-import Nebula from '../components/Nebula';
+import SongDisplay from '@components/nebula/SongDisplay';
+import Search from '@components/navbar/Search';
+import useId from '@hooks/useId';
+import Nebula from '@components/nebula/Nebula';
 import Link from 'next/link';
-import useClusters from '../hooks/useClusters';
+import useClusters from '@hooks/useClusters';
 
 export default function Home() {
   const { id } = useId();

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react'
-import useId from '../hooks/useId';
-import useFeatures from '../hooks/useFeatures';
+import useId from '@hooks/useId';
+import useFeatures from '@hooks/useFeatures';
 import axios from 'axios';
 import * as THREE from 'three';
 
@@ -8,8 +8,8 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Html } from '@react-three/drei'
 import PointWindow from './PointWindow';
 
-import { COLORS } from './globals';
-import useClusters from '../hooks/useClusters';
+import { COLORS } from '@components/globals';
+import useClusters from '@hooks/useClusters';
 
 
 const tempObject = new THREE.Object3D()

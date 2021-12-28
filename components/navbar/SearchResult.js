@@ -1,5 +1,5 @@
 import React from 'react'
-import useId from '../hooks/useId';
+import useId from '@hooks/useId';
 
 export default function SearchResult({data}) {
     const {setId} = useId();

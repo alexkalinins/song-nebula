@@ -5,12 +5,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "link-module-alias"
+  },
+  "_moduleAliases":{
+    "@components": "./components",
+    "@hooks": "./hooks"
   },
   "dependencies": {
     "@react-three/drei": "^8.3.1",
     "@react-three/fiber": "^7.0.24",
     "axios": "^0.24.0",
+    "link-module-alias": "^1.2.0",
     "next": "12.0.7",
     "nice-color-palettes": "^3.0.0",
     "react": "17.0.2",

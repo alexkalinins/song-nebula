@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import SelectionDiv from './SelectionDiv';
 import ReactAudioPlayer from 'react-audio-player';
-import { KEYS, MODE } from './globals';
+import { KEYS, MODE } from '@components/globals';
 
 export default function SongDisplay({ id }) {
 
