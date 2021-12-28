@@ -3,10 +3,10 @@ import axios from 'axios'
 import SelectionDiv from './SelectionDiv';
 import ReactAudioPlayer from 'react-audio-player';
 import { KEYS, MODE } from '@components/globals';
+import useDisplaySong from '@hooks/useDisplaySong';
 
 export default function SongDisplay({ id }) {
-
-    const [song, setSong] = useState(null)
+    const {displaySong, setDisplaySong} = useDisplaySong();
 
     useEffect(() => {
         axios({
@@ -14,7 +14,7 @@ export default function SongDisplay({ id }) {
             url: `/api/spotify/${id}`,
         }).then(res => {
             console.log(res.data);
-            setSong(res.data)
+            setDisplaySong(res.data)
         }).catch(err => {
             console.error(err)
         })
@@ -22,69 +22,69 @@ export default function SongDisplay({ id }) {
 
     return (
         <div>
-            {song && (
+            {displaySong && (
                 <div className="songDisplay">
-                    <h2>{song.title}</h2>
-                    <p>by {song.artist_names.toString().replace(',', ', ')}</p>
-                    <img src={song.image_url} alt="" />
-                    {song.preview_url &&
-                        <ReactAudioPlayer src={song.preview_url} controls />
+                    <h2>{displaySong.title}</h2>
+                    <p>by {displaySong.artist_names.toString().replace(',', ', ')}</p>
+                    <img src={displaySong.image_url} alt="" />
+                    {displaySong.preview_url &&
+                        <ReactAudioPlayer src={displaySong.preview_url} controls />
                     }
                     <SelectionDiv feature="acousticness">
                         <h3>Acousticness</h3>
-                        <p>{song.acousticness}</p>
+                        <p>{displaySong.acousticness}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="danceability">
                         <h3>Danceability</h3>
-                        <p>{song.danceability}</p>
+                        <p>{displaySong.danceability}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="energy">
                         <h3>Energy</h3>
-                        <p>{song.energy}</p>
+                        <p>{displaySong.energy}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="liveness">
                         <h3>Liveness</h3>
-                        <p>{song.liveness}</p>
+                        <p>{displaySong.liveness}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="speechiness">
                         <h3>Speechiness</h3>
-                        <p>{song.speechiness}</p>
+                        <p>{displaySong.speechiness}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="instrumentalness">
                         <h3>Instrumentalness</h3>
-                        <p>{song.instrumentalness}</p>
+                        <p>{displaySong.instrumentalness}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="valence">
                         <h3>Valence</h3>
-                        <p>{song.valence}</p>
+                        <p>{displaySong.valence}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="loudness">
                         <h3>Loudness</h3>
-                        <p>{song.loudness}</p>
+                        <p>{displaySong.loudness}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="tempo">
                         <h3>Tempo</h3>
-                        <p>{song.tempo}</p>
+                        <p>{displaySong.tempo}</p>
                     </SelectionDiv>
 
                     <SelectionDiv feature="popularity">
                         <h3>Popularity</h3>
-                        <p>{song.popularity}</p>
+                        <p>{displaySong.popularity}</p>
                     </SelectionDiv>
 
                     <h3>Key</h3>
-                    <p>{KEYS[song.key]}</p>
+                    <p>{KEYS[displaySong.key]}</p>
 
                     <h3>Mode</h3>
-                    <p>{MODE[song.mode]}</p>
+                    <p>{MODE[displaySong.mode]}</p>
                 </div>
             )}
 

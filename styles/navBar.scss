@@ -1,0 +1,54 @@
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    z-index: 10;
+    position: absolute;
+}
+
+.searchResults {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    position: absolute;
+    width: 30vw;
+}
+
+.searchResult {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    width: 100%;
+
+    &>div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &>img {
+        width: 2vw;
+        height: auto;
+    }
+}
+
+.searchBarDiv {
+    min-width: 20vw;
+    z-index: 10;
+
+    &>input {
+        width: 100%;
+    }
+}
+
+
+.navButton {
+    cursor: pointer;
+    background-color:red;
+    border-radius: 5px;
+}
