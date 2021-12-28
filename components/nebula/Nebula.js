@@ -10,13 +10,11 @@ import PointWindow from './PointWindow';
 
 import { COLORS } from '@components/globals';
 import useClusters from '@hooks/useClusters';
+import useDisplaySong from '@hooks/useDisplaySong';
 
 
 const tempObject = new THREE.Object3D()
 const tempColor = new THREE.Color()
-
-
-
 
 function Points({ data, selected, id, onClick }) {
     const meshRef = useRef();
@@ -96,6 +94,7 @@ export default function Nebula() {
 
     const { id, setId } = useId();
     const { selected } = useFeatures();
+    const { displaySong } = useDisplaySong();
 
     const { setClusterNebula, hasClusterNebula } = useClusters();
 
@@ -120,6 +119,27 @@ export default function Nebula() {
     // song at which the camera is looking --- changed by double click
     const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
 
+    const addCurrent = (data) => {
+        console.log('shit fart')
+
+        if (data.filter(song => song.id === displaySong.id).length === 0) {
+            console.log('Song not in nebula!')
+            return [...data, {
+                spotify_id: displaySong.id,
+                preview_url: displaySong.preview_url ? displaySong.preview_url : '',
+                image_url: displaySong.image_url,
+                artist_names: displaySong.artist_names,
+                x: displaySong[selected[0]],
+                y: displaySong[selected[1]],
+                z: displaySong[selected[2]],
+                cluster: displaySong.cluster
+            }]
+        }
+
+        return data
+
+    }
+
     // get new data only when three new (different) axis are selected.
     useEffect(() => {
         if (selected.length == 3 && ([...selected].sort().join(',') != [...oldSelected].sort().join(','))) {
@@ -130,19 +150,23 @@ export default function Nebula() {
                 url: `/api/spotify/nebula/previews?axis1=${selected[0]}&axis2=${selected[1]}&axis3=${selected[2]}`,
             }).then(res => {
                 console.log(res.data.length);
-                console.log(res.data[0]);
-                console.log(`x: ${res.data[0][selected[0]]}, y: ${res.data[0][selected[1]]}, z: ${res.data[0][selected[2]]}`);
-                setNebula(res.data);
+                console.log(`x: ${res.data[0].x}, y: ${res.data[0].y}, z: ${res.data[0].z}`);
 
-                if (!hasClusterNebula() && res.data) setClusterNebula(res.data);
+                return addCurrent(res.data)
+            })
+                .then(data => {
+                    setNebula(data);
 
-            }).catch(err => console.log(err));
+                    if (!hasClusterNebula() && data) setClusterNebula(data);
+
+                }).catch(err => console.log(err));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selected])
 
     const handleOnClick = (e) => {
         // simulating a double click --- move camera only on double click
+        console.log('click')
         if (preselectedInstance === e.instanceId) {
             setCameraTarget(e.point)
             setPreselectedInstance(null);
@@ -159,13 +183,13 @@ export default function Nebula() {
 
     return (
         <div className="nebulaContainer">
-            {nebula.length > 0 &&
+            {(nebula && nebula.length > 0) &&
                 <Canvas
                     linear
                     gl={{ antialias: false, alpha: false }}
                     camera={{ position: [0, 0, 15], near: 0.1, far: 100, zoom: 2 }}>
-                    <ambientLight intensity={0.75}/>
-                    <Points data={nebula} selected={oldSelected} id={id} onClick={handleOnClick} onDoubleClick={() => console.log('pooooo')} />
+                    <ambientLight intensity={0.75} />
+                    <Points data={nebula} selected={oldSelected} id={id} onClick={handleOnClick} />
                     <OrbitControls target={cameraTarget} />
                     <SelectionCursor position={selectedPosition} ref={selectedBoxRef} song={boxSong} />
                     {displaying &&

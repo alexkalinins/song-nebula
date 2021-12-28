@@ -7,10 +7,10 @@ export default function SearchResult({data}) {
     return (
         <div className="searchResult" onClick={()=>setId(data.id)}>
             <img src={data.image_url} alt="" />
-            <div>
+        
                 <h3>{data.title}</h3>
                 <p>by {data.artist_names.toString().replace(',',', ')}</p>
-            </div>            
+                        
         </div>
     )
 }

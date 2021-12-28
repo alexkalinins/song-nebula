@@ -24,7 +24,7 @@ export default function SongDisplay({ id }) {
         <div>
             {displaySong && (
                 <div className="songDisplay">
-                    <h2>{displaySong.title}</h2>
+                    <h1>{displaySong.title}</h1>
                     <p>by {displaySong.artist_names.toString().replace(',', ', ')}</p>
                     <img src={displaySong.image_url} alt="" />
                     {displaySong.preview_url &&
@@ -80,11 +80,15 @@ export default function SongDisplay({ id }) {
                         <p>{displaySong.popularity}</p>
                     </SelectionDiv>
 
+                    <div className="featureDiv">
                     <h3>Key</h3>
                     <p>{KEYS[displaySong.key]}</p>
+                    </div>
 
+                    <div className="featureDiv">
                     <h3>Mode</h3>
                     <p>{MODE[displaySong.mode]}</p>
+                    </div>
                 </div>
             )}
 
