@@ -35,9 +35,9 @@ function Points({ data, selected, id, onClick }) {
             return Float32Array.from(data.map(d => scale(d[field])))
         }
 
-        const x = normalize(selected[0]);
-        const y = normalize(selected[1]);
-        const z = normalize(selected[2]);
+        const x = normalize('x');
+        const y = normalize('y');
+        const z = normalize('z');
 
         for (let i in data) {
             tempObject.position.set(x[i], y[i], z[i])
@@ -79,7 +79,7 @@ function SelectionCursor({ position, song }) {
             {song &&
                 <boxGeometry args={[0.5, 0.5, 0.5]} />
             }
-            <pointLight position={position} />
+            <pointLight intensity={0.5} position={position} />
             <meshPhongMaterial color={0x00ff00} />
             <Html ref={htmlRef}>
                 {song &&
@@ -164,8 +164,7 @@ export default function Nebula() {
                     linear
                     gl={{ antialias: false, alpha: false }}
                     camera={{ position: [0, 0, 15], near: 0.1, far: 100, zoom: 2 }}>
-                    <ambientLight intensity={0.5}/>
-                    <axisHelper />
+                    <ambientLight intensity={0.75}/>
                     <Points data={nebula} selected={oldSelected} id={id} onClick={handleOnClick} onDoubleClick={() => console.log('pooooo')} />
                     <OrbitControls target={cameraTarget} />
                     <SelectionCursor position={selectedPosition} ref={selectedBoxRef} song={boxSong} />

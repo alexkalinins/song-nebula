@@ -20,7 +20,7 @@ const useFeatures = () => {
      */
     const onSelect = (feature) => {
         if(selected.length<3){
-            setSelected([...selected, feature]);
+            setSelected([...selected, feature].sort());
             return true;
         }
         return false;

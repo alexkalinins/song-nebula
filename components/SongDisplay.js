@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import SelectionDiv from './SelectionDiv';
 import ReactAudioPlayer from 'react-audio-player';
+import { KEYS, MODE } from './globals';
 
 export default function SongDisplay({ id }) {
 
@@ -80,10 +81,10 @@ export default function SongDisplay({ id }) {
                     </SelectionDiv>
 
                     <h3>Key</h3>
-                    <p>{song.key}</p>
+                    <p>{KEYS[song.key]}</p>
 
                     <h3>Mode</h3>
-                    <p>{song.mode}</p>
+                    <p>{MODE[song.mode]}</p>
                 </div>
             )}
 
