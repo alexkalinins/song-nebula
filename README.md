@@ -1,6 +1,6 @@
 # SongNebula
 
-A music-lovers tool for visually finding similar songs.
+A music-lover's tool for visually finding similar songs.
 
 ## About the project
 

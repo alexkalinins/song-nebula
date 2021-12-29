@@ -6,6 +6,7 @@ import { COLORS } from '../components/globals';
 import NavBar from '@components/navbar/NavBar';
 import axios from 'axios';
 import Footer from '@components/Footer';
+import Head from '@components/Head';
 
 export default function Cluster_radio() {
 
@@ -72,7 +73,7 @@ export default function Cluster_radio() {
 
 
     return (<div>
-
+        <Head pageTitle="Cluster Radio"/>
 
         <main>
             <NavBar clusterRadio={true} />
