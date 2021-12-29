@@ -2,15 +2,16 @@
 @import "./navBar.scss";
 @import "./fonts.scss";
 @import "./globals.scss";
-
+@import './footer.scss';
+@import './dialogues.scss';
 
 html {
-    background-color: black;
     user-select: none;
     font-family: AkzidenzGrotesk;
 }
 
-h1, h2{
+h1,
+h2 {
     font-family: Atiba;
 }
 
@@ -21,20 +22,20 @@ h3 {
 
 body {
     color: white;
+    background-color: black;
+
 }
 
 
 .songDisplay {
     display: flex;
     flex-direction: column;
-    width: 15vw;
+    width: 17vw;
+    z-index: 100;
 
-    padding-left: 1rem;
-    padding-right: 0.5rem;
+    padding: 1rem;
 
-    top: 7vh;
-
-    h1{
+    h1 {
         margin-bottom: 0.2rem;
     }
 
@@ -51,49 +52,38 @@ body {
     }
 
     z-index: 100;
-    position: absolute;
-}
-
-.featureDiv {
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-
-    h3{
-        margin-bottom: 0.2rem;
-    }
-
-    &>* {
-        user-select: none;
-    }
-}
-
-.unselectedDiv {
-    @extend .featureDiv;
-    cursor: pointer;
-}
-
-.selectedDiv {
-    @extend .unselectedDiv;
-
-    background-color: #0000ffb0;
-    border-radius: 5px;
-
-    &::before {
-        filter: blur(2px);
-    }
-
     backdrop-filter: blur(2px);
+    border-radius: 10px;
 
 }
 
+
+.nebulaPage {
+    background-color: #00000000 !important;
+    pointer-events: none !important;
+
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+
+    &>div>* {
+        pointer-events: all;
+    }
+}
 
 
 .nebulaContainer {
     // width: 60vw;
     // height: 80vh;
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
+    z-index: -1;
+
+    top: 0;
+    bottom: 0;
+
     background-color: black;
 
     display: flex;
@@ -125,6 +115,7 @@ body {
 
     &>audio {
         grid-column-end: span 2;
+        width: 100%
     }
 
 }
@@ -133,6 +124,7 @@ body {
     display: flex;
     flex-direction: row;
     width: 100vw;
+    position: relative;
 }
 
 .imageButton {
@@ -149,5 +141,44 @@ body {
 
 .imageButton:hover {
     filter: blur(1px);
+
+}
+
+.pageContent {
+    padding: 1rem;
+    padding-top: 7vh;
+}
+
+
+
+.featureDiv {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+
+    h3 {
+        margin-bottom: 0.2rem;
+    }
+
+    &>* {
+        user-select: none;
+    }
+}
+
+.unselectedDiv {
+    @extend .featureDiv;
+    cursor: pointer;
+}
+
+.selectedDiv {
+    @extend .unselectedDiv;
+
+    background-color: #0000ffb0;
+    border-radius: 5px;
+
+    &::before {
+        filter: blur(2px);
+    }
+
+    backdrop-filter: blur(2px);
 
 }

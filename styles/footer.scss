@@ -1,0 +1,18 @@
+@import './globals.scss';
+
+footer{
+    display: flex;
+    flex-direction: row;
+    padding: 3rem;
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 12pt;
+
+    &>div{
+        display: flex;
+        flex-direction: row;
+        justify-content: evenly;
+    }
+}

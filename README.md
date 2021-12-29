@@ -2,28 +2,25 @@
 
 A music-lovers tool for visually finding similar songs.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## About the project
 
-## Running the project
+SongNebula is a tool that allows the exploration of songs based on audio features. You can select three different features to explore
+and the songs will placed in the &lsquo;Nebula&lsquo; based on their features; essentially a 3D scatterplot. A Gaussian Mixture Model
+has been fitted on all of the songs, placing each song in a particular &lsquo;Cluster&lsquo; based on the features of the song. The
+songs in each cluster can be from very different genres but still share some pattern of features. The color of each song&lsquo;s point in
+the nebula is determined by its cluster.
 
-First download the backend:
+You can explore the sound of each cluster using the &lsquo;Cluster Radio&lsquo;. Spotify playlists based on each cluster are comming soon :)
 
-```bash
-git submodule init
-git submodule update
-```
-
-Start the backend:
-```bash
-cd song-nebula-backend
-npm run dev
-```
+This project was created by [Alex Kalinins](https://github.com/alexkalinins) with some help from [Parssa Kyanzadeh](https://github.com/parssak). Thanks for checking it out!
 
 
-Start front-end next project:
-```bash
-yarn dev
-```
+## Implementation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Data used to make SongNebula comes from the Spotify Web API. When a song is looked up, its audio features are saved to the database and its
+cluster is predicted using the Gaussian Mixture Model (GMM). The GMM was trained in Python using SciKit-Learn. The model parameters were saved
+and used in the express.js backend to predict the cluster when a new song is added.
 
+
+The front was implemented in Next.js and Three.js. All points in the SongNebula graph use the InstanceMesh, greatly improving the performance
+of the webapp. The [back-end](https://github.com/alexkalinins/song-nebula-backend) was implemented in TypeScript using express.

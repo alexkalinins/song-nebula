@@ -5,3 +5,11 @@
     margin: 0;
     padding: 0;
 }
+
+.hoverable{
+    cursor: pointer;
+    &:hover{
+        transform: scale(1.1);
+        transition: all 0.2s ease-in-out;
+    }
+}

@@ -1,0 +1,62 @@
+@import './globals.scss';
+
+.infoWindow{
+    position: absolute;
+    background-color: #0f0f0fc0;
+
+    backdrop-filter: blur(2px);
+    
+    width: 50vw;
+    height: 50vh;
+
+    top: 25vh;
+    left: 25vw;
+
+    padding: 1rem;
+
+    border-radius: 10px;
+    overflow-y: scroll;
+
+    .closeButton{
+        position: sticky;
+        top: 0;
+
+        float:right;
+        cursor: pointer;
+        user-select: none;
+        padding: 0.25rem 0.4rem;
+
+        font-weight: 800;
+        font-size: 14pt;
+
+        border: none;
+        border-radius: 5px;
+
+        &:hover{
+            transform: scale(1.1);
+            transition: all 0.5s ease-in-out;
+        }
+    }
+
+    h2,h3,p{
+        margin-bottom: 0.75rem;
+    }
+
+    a{
+        color: white;
+        cursor:pointer;
+        &:hover{
+            font-size: 13pt;
+            transition: all 0.5s ease-in-out;
+        }
+    }
+
+    img{
+        width: 25%;
+        height: auto;
+        margin: 0.5rem;
+    }
+
+    scrollbar-color: dark;
+}
+

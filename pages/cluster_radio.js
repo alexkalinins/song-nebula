@@ -1,47 +1,89 @@
 import React, { useState, useEffect } from 'react'
-import useClusters from '../hooks/useClusters';
 import ClusterButton from '../components/cluster_radio/ClusterButton';
 import { v4 as uuid } from 'uuid'
 import SongPlayer from '../components/cluster_radio/SongPlayer';
 import { COLORS } from '../components/globals';
+import NavBar from '@components/navbar/NavBar';
+import axios from 'axios';
+import Footer from '@components/Footer';
 
 export default function Cluster_radio() {
-    const { getClusters } = useClusters();
 
-    const [selectedCluster, setSelectedCluster] = useState(0);
+    const [selectedCluster, setSelectedCluster] = useState(null);
     const [currentSong, setCurrentSong] = useState(null);
     const [doneSong, setDoneSong] = useState(true);
 
+    const [numClusters, setNumClusters] = useState(0);
+    const [songs, setSongs] = useState([])
+    const [songIndex, setSongIndex] = useState(0);
+    const [newCluster, setNewCluster] = useState(false)
+
     const handleOnClick = (index) => {
-        setSelectedCluster(index);
+        if (selectedCluster !== index) {
+            setSelectedCluster(index);
+            setNewCluster(true);
+            setSongIndex(0);
+        }
+
         setDoneSong(true); // want next song to play
     }
 
     useEffect(() => {
-        if (doneSong) {
-            const cluster = getClusters()[selectedCluster];
-            const newSong = null;
+        axios({
+            method: 'get',
+            url: '/api/cluster_radio/num_clusters'
+        }).then(res => {
+            console.log(res.data)
+            setNumClusters(res.data.num);
+        }).catch(err => {
+            console.error(err);
+        })
+    }, [])
 
-            do {
+    useEffect(() => {
+        if (selectedCluster && numClusters > 0 && (newCluster || songIndex === 5)) {
+            console.log('Requesting songs from cluster ' + selectedCluster)
+            axios({
+                method: 'get',
+                url: `/api/cluster_radio/radio/${selectedCluster}`
+            }).then(res => {
+                setSongs(res.data.songs);
+                console.log(res.data.songs.map(song => song.preview_url))
+            }).catch(err => {
+                console.error(err);
+            });
 
-                newSong = cluster[Math.floor(Math.random() * cluster.length)];
-            } while (!newSong.preview_url)
-
-            setCurrentSong(newSong);
-            setDoneSong(false)
+            setSongIndex(0);
+            setNewCluster(false);
 
         }
-    }, [selectedCluster, getClusters, doneSong])
 
-    return (
+    }, [numClusters, selectedCluster, songIndex, newCluster])
+
+    useEffect(() => {
+        if (songs && doneSong) {
+            setDoneSong(false);
+            setCurrentSong(songs[songIndex]);
+            console.log('Playing song index ' + songIndex)
+            setSongIndex(songIndex + 1);
+
+        }
+    }, [songs, songIndex, doneSong])
+
+
+    return (<div>
+
+
         <main>
+            <NavBar clusterRadio={true} />
+
             <div className="pageContent">
                 <h1>Cluster Radio</h1>
 
                 <div className="clusterRadioContainer">
                     <div className="clusterStack">
-                        {getClusters().map((cluster, index) => (
-                            <ClusterButton index={index} onClick={handleOnClick} key={uuid()} selected={index == selectedCluster} />
+                        {[...Array(numClusters).keys()].map((number) => (
+                            <ClusterButton index={number} onClick={handleOnClick} key={uuid()} selected={number == selectedCluster} />
                         ))}
                     </div>
                     <div>
@@ -53,5 +95,7 @@ export default function Cluster_radio() {
                 </div>
             </div>
         </main>
+        <Footer />
+    </div>
     )
 }

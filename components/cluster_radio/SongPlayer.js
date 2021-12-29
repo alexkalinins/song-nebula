@@ -11,7 +11,7 @@ export default function SongPlayer({song, onEnded, backgroundColor}) {
     return (
         <div className="songPlayer" style={{backgroundColor: backgroundColor}}>
             <h1>{song.title}</h1>
-            <h2>{song.artist_names.toString().replace(',', ', ')}</h2>
+            <p>{song.artist_names.toString().replaceAll(',', ', ')}</p>
             <img src={song.image_url} alt=""/>
             <audio src={song.preview_url} controls autoPlay="true" onEnded={onEnded} />
         </div>

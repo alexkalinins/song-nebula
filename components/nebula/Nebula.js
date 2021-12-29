@@ -120,8 +120,6 @@ export default function Nebula() {
     const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
 
     const addCurrent = (data) => {
-        console.log('shit fart')
-
         if (data.filter(song => song.id === displaySong.id).length === 0) {
             console.log('Song not in nebula!')
             return [...data, {
