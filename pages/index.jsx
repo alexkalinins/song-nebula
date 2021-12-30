@@ -15,8 +15,8 @@ export default function Home() {
       <main>
         <div className="nebulaPage">
           <NavBar />
-          <SongDisplay id={id} />
           <Nebula />
+          <SongDisplay id={id} />
         </div>
       </main>
       <Footer />

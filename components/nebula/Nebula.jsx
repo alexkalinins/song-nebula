@@ -77,7 +77,7 @@ function SelectionCursor({ position, song }) {
             {song &&
                 <boxGeometry args={[0.5, 0.5, 0.5]} />
             }
-            <pointLight intensity={0.5} position={position} />
+            <pointLight intensity={1} position={position} />
             <meshPhongMaterial color={0x00ff00} />
             <Html ref={htmlRef}>
                 {song &&
@@ -184,9 +184,9 @@ export default function Nebula() {
             {(nebula && nebula.length > 0) &&
                 <Canvas
                     linear
-                    gl={{ antialias: false, alpha: false }}
+                    gl={{ antialias: true, alpha: false, toneMapping: THREE.ReinhardToneMapping }}
                     camera={{ position: [0, 0, 15], near: 0.1, far: 100, zoom: 2 }}>
-                    <ambientLight intensity={0.75} />
+                    <ambientLight intensity={2} />
                     <Points data={nebula} selected={oldSelected} id={id} onClick={handleOnClick} />
                     <OrbitControls target={cameraTarget} />
                     <SelectionCursor position={selectedPosition} ref={selectedBoxRef} song={boxSong} />
