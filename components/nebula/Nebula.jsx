@@ -116,7 +116,7 @@ export default function Nebula() {
     const [preselectedInstance, setPreselectedInstance] = useState(null);
 
     // song at which the camera is looking --- changed by double click
-    const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
+    const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(-1, -1, 0))
 
     const [loading, setLoading] = useState(false);
 
@@ -188,7 +188,7 @@ export default function Nebula() {
                 <Canvas
                     linear
                     gl={{ antialias: true, alpha: false, toneMapping: THREE.ReinhardToneMapping }}
-                    camera={{ position: [0, 0, 15], near: 0.1, far: 100, zoom: 2 }}>
+                    camera={{ position: [-1, -1, 15], near: 0.1, far: 100, zoom: 1.5 }}>
                     <ambientLight intensity={2} />
                     <Points data={nebula} selected={oldSelected} id={id} onClick={handleOnClick} />
                     <OrbitControls target={cameraTarget} />
