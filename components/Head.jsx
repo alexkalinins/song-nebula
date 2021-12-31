@@ -14,6 +14,7 @@ export default function Head({pageTitle}) {
             content="Visual music exploration tool"
             key="ogdescription"
           />
+          <meta property="og:image" content="https://songnebula.com/media/songnebula.png" />
         </NextHead>
     )
 }
