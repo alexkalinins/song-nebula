@@ -60,7 +60,7 @@ body {
 
 .nebulaPage {
     background-color: #00000000 !important;
-    pointer-events: none !important;
+    // pointer-events: none !important;
 
     width: 100%;
     height: 100%;
@@ -68,7 +68,7 @@ body {
     position: relative;
 
     &>div>* {
-        pointer-events: all;
+        // pointer-events: all;
     }
 }
 
@@ -79,7 +79,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    // z-index: -1;
 
     top: 0;
     bottom: 0;
@@ -162,6 +162,11 @@ body {
     &>* {
         user-select: none;
     }
+}
+
+.loaderContainer{
+    position: absolute;
+    top: 40vh;
 }
 
 .unselectedDiv {

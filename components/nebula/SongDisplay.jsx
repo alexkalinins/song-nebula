@@ -5,19 +5,22 @@ import ReactAudioPlayer from 'react-audio-player';
 import { KEYS, MODE } from '@components/globals';
 import useDisplaySong from '@hooks/useDisplaySong';
 
+
 export default function SongDisplay({ id }) {
-    const {displaySong, setDisplaySong} = useDisplaySong();
+    const { displaySong, setDisplaySong } = useDisplaySong();
 
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: `/api/spotify/${id}`,
-        }).then(res => {
-            console.log(res.data);
-            setDisplaySong(res.data)
-        }).catch(err => {
-            console.error(err)
-        })
+        if (!displaySong || displaySong.spotify_id !== id) {
+            axios({
+                method: 'get',
+                url: `/api/spotify/${id}`,
+            }).then(res => {
+                console.log(res.data);
+                setDisplaySong(res.data)
+            }).catch(err => {
+                console.error(err)
+            })
+        }
     }, [id])
 
     return (
@@ -81,13 +84,13 @@ export default function SongDisplay({ id }) {
                     </SelectionDiv>
 
                     <div className="featureDiv">
-                    <h3>Key</h3>
-                    <p>{KEYS[displaySong.key]}</p>
+                        <h3>Key</h3>
+                        <p>{KEYS[displaySong.key]}</p>
                     </div>
 
                     <div className="featureDiv">
-                    <h3>Mode</h3>
-                    <p>{MODE[displaySong.mode]}</p>
+                        <h3>Mode</h3>
+                        <p>{MODE[displaySong.mode]}</p>
                     </div>
                 </div>
             )}

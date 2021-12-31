@@ -9,8 +9,9 @@ import { OrbitControls, Html } from '@react-three/drei'
 import PointWindow from './PointWindow';
 
 import { COLORS } from '@components/globals';
-import useClusters from '@hooks/useClusters';
 import useDisplaySong from '@hooks/useDisplaySong';
+
+import Loader from 'react-loader-spinner'
 
 
 const tempObject = new THREE.Object3D()
@@ -96,8 +97,6 @@ export default function Nebula() {
     const { selected } = useFeatures();
     const { displaySong } = useDisplaySong();
 
-    const { setClusterNebula, hasClusterNebula } = useClusters();
-
     // the nebula data being displaed
     const [nebula, setNebula] = useState([]);
 
@@ -111,13 +110,15 @@ export default function Nebula() {
     const [boxSong, setBoxSong] = useState(null);
 
     // true if the nebula is being displayed.
-    const [displaying, setDisplaying] = useState(false);
+    const [displaying, setDisplaying] = useState(false); 
 
     // the song that was clicked on last (for simulating double click)
     const [preselectedInstance, setPreselectedInstance] = useState(null);
 
     // song at which the camera is looking --- changed by double click
     const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
+
+    const [loading, setLoading] = useState(false);
 
     const addCurrent = (data) => {
         if (data.filter(song => song.id === displaySong.id).length === 0) {
@@ -143,6 +144,7 @@ export default function Nebula() {
         if (selected.length == 3 && ([...selected].sort().join(',') != [...oldSelected].sort().join(','))) {
             setDisplaying(true);
             setOldSelected([...selected]);
+            setLoading(true);
             axios({
                 method: 'get',
                 url: `/api/spotify/nebula/previews?axis1=${selected[0]}&axis2=${selected[1]}&axis3=${selected[2]}`,
@@ -153,6 +155,7 @@ export default function Nebula() {
                 return addCurrent(res.data)
             })
                 .then(data => {
+                    setLoading(false);
                     setNebula(data);
 
                     if (!hasClusterNebula() && data) setClusterNebula(data);
@@ -217,6 +220,12 @@ export default function Nebula() {
 
 
                 </Canvas>}
+
+                {loading && 
+                <div className='loaderContainer'>
+                <Loader type="Bars" height='200' width='200' color='blue' visible='true'/>
+                </div>
+            }
         </div>
     )
 }

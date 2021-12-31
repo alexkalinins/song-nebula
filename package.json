@@ -8,7 +8,7 @@
     "lint": "next lint",
     "postinstall": "link-module-alias"
   },
-  "_moduleAliases":{
+  "_moduleAliases": {
     "@components": "./components",
     "@hooks": "./hooks"
   },
@@ -22,6 +22,7 @@
     "react": "17.0.2",
     "react-audio-player": "^0.17.0",
     "react-dom": "17.0.2",
+    "react-loader-spinner": "^4.0.0",
     "react-social-icons": "^5.6.1",
     "react-three": "^0.9.7",
     "recoil": "^0.5.2",
