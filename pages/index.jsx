@@ -10,7 +10,7 @@ export default function Home() {
   const { id } = useId();
 
   return (
-    <div>
+    <div className="indexContainer">
       <Head/>
       <main>
         <div className="nebulaPage">
